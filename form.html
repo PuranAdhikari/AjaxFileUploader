@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h3 class="page-header">File Upload using Ajax with Progress Bar</h3>
+        <div>
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                <input type="file" name="myfile"><br/>
+                <input type="submit" value="Upload File to Server" class="btn btn-primary">
+            </form>
+        </div>
+        <br/>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            </div>
+            <div class="percent">0%</div >
+        </div>
+        <p class="alert-info" id="status"></p>
+    </div>
+
+    <script>
+        (function() {
+            var bar = $('.progress-bar');
+            var percent = $('.percent');
+            var status = $('#status');
+
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                success: function() {
+                    var percentVal = '100%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) {
+                    status.html(xhr.responseText);
+                    status.addClass('alert');
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>

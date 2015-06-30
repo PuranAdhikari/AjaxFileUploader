@@ -1,0 +1,61 @@
+<pre name="code">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+    &lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"&gt;
+    &lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"&gt;&lt;/script&gt;
+    &lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="http://malsup.github.com/jquery.form.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div class="container"&gt;
+    &lt;h3 class="page-header"&gt;File Upload via Ajax with Progress Bar&lt;/h3&gt;
+    &lt;div&gt;
+    &lt;form action="upload.php" method="post" enctype="multipart/form-data"&gt;
+    &lt;input type="file" name="myfile"&gt;&lt;br/&gt;
+    &lt;input type="submit" value="Upload File to Server" class="btn btn-primary"&gt;
+    &lt;/form&gt;
+    &lt;/div&gt;
+    &lt;br/&gt;
+    &lt;div class="progress"&gt;
+    &lt;div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"&gt;
+    &lt;/div&gt;
+    &lt;div class="percent"&gt;0%&lt;/div &gt;
+    &lt;/div&gt;
+    &lt;p class="alert-info" id="status"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+    (function() {
+    var bar = $('.progress-bar');
+    var percent = $('.percent');
+    var status = $('#status');
+
+    $('form').ajaxForm({
+    beforeSend: function() {
+    status.empty();
+    var percentVal = '0%';
+    bar.width(percentVal);
+    percent.html(percentVal);
+    },
+    uploadProgress: function(event, position, total, percentComplete) {
+    var percentVal = percentComplete + '%';
+    bar.width(percentVal);
+    percent.html(percentVal);
+    },
+    success: function() {
+    var percentVal = '100%';
+    bar.width(percentVal);
+    percent.html(percentVal);
+    },
+    complete: function(xhr) {
+    status.html(xhr.responseText);
+    status.addClass('alert');
+    }
+    });
+
+    })();
+    &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+</pre>
